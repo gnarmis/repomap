@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+$: << "#{File.dirname(__FILE__)}"
+require 'repoman'
+require 'optparse'
+
+include RepoMan
+
+options = {}
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "repo [switch] [pathname]"
+ 
+  options[:add] = "" 
+  opts.on("-a", "--add PATH", "Add given path as a git repository") do |path|
+    options[:add] = path 
+  end
+
+  opts.on( "-h", "--help", "Display this screen" ) do
+    STDOUT.puts opts
+    exit 0
+  end
+end
+
+begin
+  option_parser.parse!
+  RepoMan.handle options
+  exit 0
+rescue OptionParser::MissingArgument => e
+  puts "repo: #{e}"
+end
