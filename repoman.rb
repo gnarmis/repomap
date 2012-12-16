@@ -27,11 +27,21 @@ module RepoMan
   end
 
   def add_repo reponame, full_path
+    unless git_repos_exist?
+      File.new(GIT_REPOS, "w")
+      File.open(GIT_REPOS, "w") do |f|
+        f.write "---\n"
+      end
+    end
     hash = YAML::load(File.read(GIT_REPOS))
     hash = {} if hash==nil
     hash[reponame.to_sym] = full_path
     File.open(GIT_REPOS, "w") do |f|
       f.write hash.to_yaml
     end
+  end
+
+  def git_repos_exist?
+    File.exist? GIT_REPOS
   end
 end
