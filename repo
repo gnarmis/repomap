@@ -16,6 +16,11 @@ option_parser = OptionParser.new do |opts|
     options[:add] = path 
   end
 
+  options[:list] = false
+  opts.on("-l", "--list", "List all git repositories") do |bool|
+    options[:list] = true
+  end
+
   opts.on( "-h", "--help", "Display this screen" ) do
     STDOUT.puts opts
     exit 0
