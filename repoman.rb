@@ -4,7 +4,11 @@ module RepoMan
   GIT_REPOS = "#{File.dirname(__FILE__)}/git-repos.yml"
 
   def self.handle options
-    add! options[:add] if options[:add] != '' and options[:add] != nil
+    if options[:add] != '' and options[:add] != nil and options[:recursive]==true
+      add_recursive! options[:add]
+    elsif options[:add] != '' and options[:add] != nil and options[:recursive]==false
+      add! options[:add]
+    end
     remove! options[:remove] if options[:remove] != '' and options[:remove] != nil
     list if options[:list]
   end
@@ -15,9 +19,23 @@ module RepoMan
       basename = File.basename(full_path)
       puts "repo: I'm adding '#{basename}' to '#{GIT_REPOS}'"
       add_repo! basename, full_path
-      exit 0
     else
       STDERR.puts "repo: Not a git repository -- #{path}"
+      exit 1
+    end
+  end
+
+  def add_recursive! path
+    if File.directory?(path) and has_git?(path)
+      add! path
+    elsif File.directory?(path) and !has_git?(path)
+      Dir.foreach(path) do |item|
+        next if item == '.' or item == '..'
+        item_path = File.join(File.expand_path(path), item)
+        add_recursive! item_path if File.directory? item_path
+      end
+    else
+      STDERR.puts "repo: Not a directory or repository -- #{path}"
       exit 1
     end
   end
@@ -73,7 +91,7 @@ module RepoMan
   end
 
   def has_git? path
-    File.directory? "#{path}/.git"
+    File.directory? "#{File.expand_path(path)}/.git"
   end
 
   def git_repos_exist?
