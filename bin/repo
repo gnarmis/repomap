@@ -7,8 +7,10 @@ require 'optparse'
 
 include RepoMan
 
+banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
+
 global = OptionParser.new do |opts|
-  opts.banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
+  opts.banner = banner
   opts.on( "-h", "--help", "Display this screen" ) do
     STDOUT.puts opts
     exit 0
@@ -75,6 +77,6 @@ begin
   exit 0
 rescue OptionParser::MissingArgument => e
   puts "repo: #{e}"
-rescue NoMethodError => e
-  puts "repo: No such subcommand."
+rescue Exception => e
+  puts banner
 end
