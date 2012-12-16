@@ -2,6 +2,7 @@
 
 $: << "#{File.dirname(__FILE__)}"
 require 'repoman'
+require 'repoman_version'
 require 'optparse'
 
 include RepoMan
@@ -10,6 +11,10 @@ global = OptionParser.new do |opts|
   opts.banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
   opts.on( "-h", "--help", "Display this screen" ) do
     STDOUT.puts opts
+    exit 0
+  end
+  opts.on("-v", "--version", "Display the version") do
+    STDOUT.puts "RepoMan #{RepoMan::VERSION}"
     exit 0
   end
 end
