@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+
+$: << "#{File.dirname(__FILE__)}/../lib"
+require 'repoman'
+require 'repoman_version'
+require 'optparse'
+
+include RepoMan
+
+global = OptionParser.new do |opts|
+  opts.banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
+  opts.on( "-h", "--help", "Display this screen" ) do
+    STDOUT.puts opts
+    exit 0
+  end
+  opts.on("-v", "--version", "Display the version") do
+    STDOUT.puts "RepoMan #{RepoMan::VERSION}"
+    exit 0
+  end
+end
+
+add_opts = {}
+add_opts[:recursive] = false
+subcommands = {
+  'add' => OptionParser.new do |opts|
+    opts.banner = "Usage: add [path to git repository]"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+    opts.on("-r", "--recursive", "Add all git repositories recursively") do 
+      add_opts[:recursive] = true
+    end
+  end,
+  'rm' => OptionParser.new do |opts|
+    opts.banner = "Usage: rm [path to git repository]"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+  end,
+  'ls' => OptionParser.new do |opts|
+    opts.banner = "Usage: ls"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+  end
+}
+
+begin
+  global.order!
+
+  argv_minus_global_opts = ARGV.dup
+
+  subcommands[ARGV.shift].order!
+  subcommand = argv_minus_global_opts.shift
+  
+  if ((subcommand =~ /add/)==0)
+    if argv_minus_global_opts.length >= 1
+      add_opts[:add] = argv_minus_global_opts[-1]
+      RepoMan.handle(add_opts)
+    end
+  end
+
+  if ((subcommand =~ /rm/)==0)
+    if argv_minus_global_opts.length==1
+      path = argv_minus_global_opts.shift
+      RepoMan.handle(:remove=>path)
+    end
+  end
+
+  RepoMan.handle(:list=>true) if ((subcommand =~ /ls/)==0)
+
+  exit 0
+rescue OptionParser::MissingArgument => e
+  puts "repo: #{e}"
+rescue NoMethodError => e
+  puts "repo: No such subcommand."
+end

@@ -31,10 +31,6 @@ CLI:
 
 ## Installation
 
-Symlink the YAML file to ~/.git-repos.yml. This is
-not required, though.
-
-- `./link`
 
 ## Quirks
 
