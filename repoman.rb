@@ -42,6 +42,8 @@ module RepoMan
   end
 
   def git_repos_exist?
-    File.exist? GIT_REPOS
+    a = File.exist? GIT_REPOS
+    b = File.read(GIT_REPOS)!='' 
+    a and b
   end
 end
