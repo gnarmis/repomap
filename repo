@@ -6,31 +6,64 @@ require 'optparse'
 
 include RepoMan
 
-options = {}
-
-option_parser = OptionParser.new do |opts|
-  opts.banner = "repo [switch] [pathname]"
- 
-  options[:add] = "" 
-  opts.on("-a", "--add PATH", "Add given path as a git repository") do |path|
-    options[:add] = path 
-  end
-
-  options[:list] = false
-  opts.on("-l", "--list", "List all git repositories") do |bool|
-    options[:list] = true
-  end
-
+global = OptionParser.new do |opts|
+  opts.banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
   opts.on( "-h", "--help", "Display this screen" ) do
     STDOUT.puts opts
     exit 0
   end
 end
 
+subcommands = {
+  'add' => OptionParser.new do |opts|
+    opts.banner = "Usage: add [path to git repository]"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+  end,
+  'rm' => OptionParser.new do |opts|
+    opts.banner = "Usage: rm [path to git repository]"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+  end,
+  'ls' => OptionParser.new do |opts|
+    opts.banner = "Usage: ls"
+    opts.on( "-h", "--help", "Display this screen" ) do
+      STDOUT.puts opts
+      exit 0
+    end
+  end
+}
+
 begin
-  option_parser.parse!
-  RepoMan.handle options
+  global.order!
+
+  argv_minus_global_opts = ARGV.dup
+  subcommand = argv_minus_global_opts.shift
+
+  subcommands[ARGV.shift].order!
+
+  if ((subcommand =~ /add/)==0)
+    if argv_minus_global_opts.length==1
+      RepoMan.handle(:add=>argv_minus_global_opts.shift)
+    end
+  end
+
+  if ((subcommand =~ /rm/)==0)
+    if argv_minus_global_opts.length==1
+      path = argv_minus_global_opts.shift
+      RepoMan.handle(:remove=>path)
+    end
+  end
+
+  RepoMan.handle(:list=>true) if ((subcommand =~ /ls/)==0)
+
   exit 0
 rescue OptionParser::MissingArgument => e
   puts "repo: #{e}"
+rescue NoMethodError => e
+  puts "repo: No such subcommand."
 end

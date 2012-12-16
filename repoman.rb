@@ -1,11 +1,11 @@
 require 'yaml'
-require 'pp'
 
 module RepoMan
   GIT_REPOS = "#{File.dirname(__FILE__)}/git-repos.yml"
 
   def self.handle options
-    add! options[:add] if options[:add] != ''
+    add! options[:add] if options[:add] != '' and options[:add] != nil
+    remove! options[:remove] if options[:remove] != '' and options[:remove] != nil
     list if options[:list]
   end
 
@@ -20,6 +20,24 @@ module RepoMan
       STDERR.puts "repo: Not a git repository -- #{path}"
       exit 1
     end
+  end
+
+  def remove! path
+    git_repos_validate
+    full_path = File.expand_path(path)
+    basename = File.basename(full_path)
+    hash = YAML::load(File.read(GIT_REPOS))
+    if hash.has_key?(full_path.to_sym) 
+      puts "repo: I'm removing '#{basename}' from '#{GIT_REPOS}'"
+    else
+      STDERR.puts "repo: I don't have this repository -- '#{full_path}'"
+      exit 1
+    end
+    hash.delete(full_path.to_sym)
+    File.open(GIT_REPOS, "w") do |f|
+      f.write hash.to_yaml
+    end
+    exit 0
   end
 
   def list
