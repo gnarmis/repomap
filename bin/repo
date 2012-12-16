@@ -77,6 +77,6 @@ begin
   exit 0
 rescue OptionParser::MissingArgument => e
   puts "repo: #{e}"
-rescue Exception => e
+rescue NoMethodError => e
   puts banner
 end
