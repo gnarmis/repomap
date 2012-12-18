@@ -1,4 +1,5 @@
-require File.expand_path('../lib/repoman_version.rb',__FILE__)
+$: << "#{File.dirname(__FILE__)}/lib"
+require 'repoman'
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Gursimran Singh"]
