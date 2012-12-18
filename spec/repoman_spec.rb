@@ -25,7 +25,7 @@ describe "RepoMan SubCommands" do
   end
 
   after :all do
-    rm_f "#{File.dirname(__FILE__)}/../tmp"
+    `rm -rf  "#{File.dirname(__FILE__)}/../tmp"`
   end
 
   describe "#add!" do
