@@ -48,6 +48,7 @@ On first use, `~/.git-repos.yml` will be created.
 - ~~search a given path recusively for all git repos, adding any that
 are found to RepoMan~~
 - ~~make a gemspec~~
+- add some simple specs
 - an 'update' command to update information about each repo that RepoMan
 knows about
 - keep track of other meta data about git repos (remotes, for instance)

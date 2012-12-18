@@ -2,7 +2,6 @@
 
 $: << "#{File.dirname(__FILE__)}/../lib"
 require 'repoman'
-require 'repoman_version'
 require 'optparse'
 
 include RepoMan
