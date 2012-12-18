@@ -18,9 +18,10 @@ CLI:
 
 ## Installation
 
-Things are pretty new, but since this project doesn't really do
-much beyond affect the state of one file that it itself creates, it's actually
-OK to use already. Check out the source if you wanna see what's happening.
+Things are pretty new, but since this project doesn't really do much beyond
+affect the state of one file that it itself creates, it's actually OK to use
+already. Check out the specs in `spec` and the source in `lib` if you wanna see
+what's happening.
 
 - `gem build repomap.gemspec`
 - `gem install repomap-x.x.x.gem`
@@ -50,7 +51,8 @@ On first use, `~/.repomap.yml` will be created.
 - ~~search a given path recusively for all git repos, adding any that
 are found to RepoMan~~
 - ~~make a gemspec~~
-- ~~add some simple specs~~
+- add some simple specs
+    - added specs for `#add!`
 - ~~change name because of conflicts with other gem names~~
 - an 'update' command to update information about each repo that RepoMan
 knows about
