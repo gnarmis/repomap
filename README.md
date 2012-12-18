@@ -25,7 +25,7 @@ OK to use already. Check out the source if you wanna see what's happening.
 - `gem build repomap.gemspec`
 - `gem install repomap-x.x.x.gem`
 
-On first use, `~/.repo-store.yml` will be created.
+On first use, `~/.repomap.yml` will be created.
 
 ## Usage
 

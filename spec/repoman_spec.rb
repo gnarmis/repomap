@@ -6,7 +6,7 @@ require 'fileutils'
 include FileUtils
 
 module RepoMap
-  ENV['REPO_MAP'] = "#{File.dirname(__FILE__)}/../tmp/repo-store.yml"
+  ENV['REPO_MAP'] = "#{File.dirname(__FILE__)}/../tmp/repomap.yml"
   REPO1 = "#{File.dirname(__FILE__)}/../tmp/repo1"
 end
 
