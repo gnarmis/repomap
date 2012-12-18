@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 $: << "#{File.dirname(__FILE__)}/../lib"
-require 'repoman'
+require 'repomap'
 require 'optparse'
 
-include RepoMan
+include RepoMap
 
 banner = "Usage: repo [global flags] [[subcommand] subcommand flags]"
 
@@ -15,7 +15,7 @@ global = OptionParser.new do |opts|
     exit 0
   end
   opts.on("-v", "--version", "Display the version") do
-    STDOUT.puts "RepoMan #{RepoMan::VERSION}"
+    STDOUT.puts "RepoMap #{RepoMap::VERSION}"
     exit 0
   end
 end
@@ -60,18 +60,18 @@ begin
   if ((subcommand =~ /add/)==0)
     if argv_minus_global_opts.length >= 1
       add_opts[:add] = argv_minus_global_opts[-1]
-      RepoMan.handle(add_opts)
+      RepoMap.handle(add_opts)
     end
   end
 
   if ((subcommand =~ /rm/)==0)
     if argv_minus_global_opts.length==1
       path = argv_minus_global_opts.shift
-      RepoMan.handle(:remove=>path)
+      RepoMap.handle(:remove=>path)
     end
   end
 
-  RepoMan.handle(:list=>true) if ((subcommand =~ /ls/)==0)
+  RepoMap.handle(:list=>true) if ((subcommand =~ /ls/)==0)
 
   exit 0
 rescue OptionParser::MissingArgument => e

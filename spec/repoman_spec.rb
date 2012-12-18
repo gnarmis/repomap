@@ -1,18 +1,18 @@
 $: << "#{File.dirname(__FILE__)}/../lib"
 
-require 'repoman'
+require 'repomap'
 require 'fileutils'
 
 include FileUtils
 
-module RepoMan
-  ENV['REPO_STORE'] = "#{File.dirname(__FILE__)}/../tmp/repo-store.yml"
+module RepoMap
+  ENV['REPO_MAP'] = "#{File.dirname(__FILE__)}/../tmp/repo-store.yml"
   REPO1 = "#{File.dirname(__FILE__)}/../tmp/repo1"
 end
 
-include RepoMan
+include RepoMap
 
-describe "RepoMan SubCommands" do
+describe "RepoMap SubCommands" do
 
   before :each do
     mkdir_p "#{REPO1}/.git"
@@ -30,9 +30,9 @@ describe "RepoMan SubCommands" do
 
   describe "#add!" do
 
-    it "should add a given path to ENV['REPO_STORE']" do
-      RepoMan.handle :add => REPO1, :recursive => false 
-      hash = YAML::load(File.read(repo_store))
+    it "should add a given path to ENV['REPO_MAP']" do
+      RepoMap.handle :add => REPO1, :recursive => false 
+      hash = YAML::load(File.read(repo_map))
       hash[File.expand_path(REPO1).to_sym][:name].should == File.basename(REPO1)
     end
 

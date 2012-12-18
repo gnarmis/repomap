@@ -1,18 +1,18 @@
 require 'yaml'
-require 'repoman/config'
-require 'repoman/helpers'
-require 'repoman/version'
-require 'repoman/add'
-require 'repoman/remove'
-require 'repoman/list'
+require 'repomap/config'
+require 'repomap/helpers'
+require 'repomap/version'
+require 'repomap/add'
+require 'repomap/remove'
+require 'repomap/list'
 
-module RepoMan
+module RepoMap
 
   # receive a hashmap like:
   #   {:add       => 'path/to/repo/or/dir',
   #    :recursive => bool}, or
   #   {:list      => bool}, or
-  #   {:remove    => 'path/to/repo/in/repostore'}
+  #   {:remove    => 'path/to/repo/in/repomap'}
   # Then, call appropriate functions.
   def self.handle options
     if options[:add] != '' and options[:add] != nil and options[:recursive]==true

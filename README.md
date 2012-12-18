@@ -1,11 +1,13 @@
-# Repo Man
+# RepoMap
 
 Keep track of your git repos.
 
 Want all git repos in some directory to be listed in one place?
-`repo add -r [directory holding repositories]`
 
-Add and remove any git repository to RepoMan, and it will keep
+- `repo add -r [directory holding repositories]`
+- `repo ls`
+
+Add and remove any git repository to RepoMap, and it will keep
 track of them in a simple YAML file. You can also pretty print
 your git repositories.
 
@@ -20,10 +22,10 @@ Things are pretty new, but since this project doesn't really do
 much beyond affect the state of one file that it itself creates, it's actually
 OK to use already. Check out the source if you wanna see what's happening.
 
-- `gem build repo-man.gemspec`
-- `gem install repo-man-x.x.x.gem`
+- `gem build repomap.gemspec`
+- `gem install repomap-x.x.x.gem`
 
-On first use, `~/.git-repos.yml` will be created.
+On first use, `~/.repo-store.yml` will be created.
 
 ## Usage
 
@@ -48,7 +50,8 @@ On first use, `~/.git-repos.yml` will be created.
 - ~~search a given path recusively for all git repos, adding any that
 are found to RepoMan~~
 - ~~make a gemspec~~
-- add some simple specs
+- ~~add some simple specs~~
+- ~~change name because of conflicts with other gem names~~
 - an 'update' command to update information about each repo that RepoMan
 knows about
 - keep track of other meta data about git repos (remotes, for instance)
