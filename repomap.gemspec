@@ -8,6 +8,9 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Find and keep track of your local git repositories.}
   gem.homepage      = "http://github.com/gnarmis/RepoMap"
 
+  gem.add_development_dependency('rake')
+  gem.add_development_dependency('rspec')
+
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map {|f| File.basename(f)}
   gem.name          = "repomap"

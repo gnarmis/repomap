@@ -23,6 +23,14 @@ affect the state of one file that it itself creates, it's actually OK to use
 already. Check out the specs in `spec` and the source in `lib` if you wanna see
 what's happening.
 
+### Install from RubyGems
+
+- `gem install repomap`
+
+On first use, `~/.repomap.yml` will be created.
+
+### Build from Gemspec
+
 - `gem build repomap.gemspec`
 - `gem install repomap-x.x.x.gem`
 
@@ -45,6 +53,10 @@ On first use, `~/.repomap.yml` will be created.
     - Add the given git repository to RepoMan
 - ls
     - List all git repositories in RepoMan
+
+## Testing
+
+- Run `rake` to run all specs.
 
 ## Future
 
