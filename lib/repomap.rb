@@ -5,17 +5,22 @@ require 'repomap/version'
 require 'repomap/add'
 require 'repomap/remove'
 require 'repomap/list'
+require 'repomap/find'
 
 module RepoMap
 
   # receive a hashmap like:
-  # I want:
+  #
   #   {:action   => :add,
   #    :options  => {:recursive => false}}, or
   #   {:action   => :remove,
   #    :options  => {:path => some/path }}, or
   #   {:action   => :list,
-  #    :options  => nil}
+  #    :options  => nil}, or
+  #   {:action   => :find,
+  #    :opions   => {:path => some/path,
+  #                  :pattern => "some regex"}}
+  #
   # Then, call appropriate functions.
   def self.handle options
     
@@ -31,6 +36,10 @@ module RepoMap
       end
     when /list/
       list
+    when /find/
+      path = options[:options][:path]
+      pattern = options[:options][:pattern]
+      find path, pattern
     end
 
   end
