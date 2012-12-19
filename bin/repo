@@ -51,27 +51,32 @@ subcommands = {
 
 begin
   global.order!
-
   argv_minus_global_opts = ARGV.dup
-
   subcommands[ARGV.shift].order!
   subcommand = argv_minus_global_opts.shift
-  
-  if ((subcommand =~ /add/)==0)
+ 
+  case subcommand
+  when /add/
     if argv_minus_global_opts.length >= 1
-      add_opts[:add] = argv_minus_global_opts[-1]
-      RepoMap.handle(add_opts)
+      opts = {:action => :add}
+      opts[:options] = {:path      => argv_minus_global_opts[-1],
+                        :recursive => add_opts[:recursive]}
+      RepoMap.handle(opts)
     end
-  end
-
-  if ((subcommand =~ /rm/)==0)
+  when /rm/
     if argv_minus_global_opts.length==1
-      path = argv_minus_global_opts.shift
-      RepoMap.handle(:remove=>path)
+      opts = {:action  => :remove}
+      opts[:options] = {:path => argv_minus_global_opts.shift}
+      RepoMap.handle(opts)
     end
-  end
-
-  RepoMap.handle(:list=>true) if ((subcommand =~ /ls/)==0)
+  when /ls/
+    if argv_minus_global_opts.length==0
+      opts = {:action => :list}
+      RepoMap.handle(opts) 
+    end
+  else
+    puts "repo: Not a known subcommand"
+  end  
 
   exit 0
 rescue OptionParser::MissingArgument => e

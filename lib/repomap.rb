@@ -9,19 +9,41 @@ require 'repomap/list'
 module RepoMap
 
   # receive a hashmap like:
-  #   {:add       => 'path/to/repo/or/dir',
-  #    :recursive => bool}, or
-  #   {:list      => bool}, or
-  #   {:remove    => 'path/to/repo/in/repomap'}
+  # I want:
+  #   {:action   => :add,
+  #    :options  => {:recursive => false}}, or
+  #   {:action   => :remove,
+  #    :options  => {:path => some/path }}, or
+  #   {:action   => :list,
+  #    :options  => nil}
   # Then, call appropriate functions.
   def self.handle options
-    if options[:add] != '' and options[:add] != nil and options[:recursive]==true
-      add_recursive! options[:add]
-    elsif options[:add] != '' and options[:add] != nil and options[:recursive]==false
-      add! options[:add]
+    
+    case options[:action].to_s
+    when /add/
+      if path_exists? options 
+         add_recursive! options[:options][:path] if options[:options][:recursive]
+         add! options[:options][:path] if not options[:options][:recursive]  
+      end
+    when /remove/
+      if path_exists? options 
+        remove! options[:options][:path]
+      end
+    when /list/
+      list
     end
-    remove! options[:remove] if options[:remove] != '' and options[:remove] != nil
-    list if options[:list]
+
+  end
+
+  def path_exists? options
+
+    if options[:options][:path] != nil and
+       options[:options][:path] != ''
+      return true
+    else
+      return false
+    end
+
   end
 
 end
