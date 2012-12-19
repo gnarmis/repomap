@@ -46,6 +46,13 @@ subcommands = {
       STDOUT.puts opts
       exit 0
     end
+  end,
+  'find' => OptionParser.new do |opts|
+    opts.banner = "Usage: find [optional: where to search] [regex pattern, like \".*\"]"
+    opts.on("-h", "--help", "Display this screen") do
+      STDOUT.puts opts
+      exit 0
+    end
   end
 }
 
@@ -73,6 +80,18 @@ begin
     if argv_minus_global_opts.length==0
       opts = {:action => :list}
       RepoMap.handle(opts) 
+    end
+  when /find/
+    opts = {:action => :find}
+    if argv_minus_global_opts.length==2
+      opts[:options] = {:path => argv_minus_global_opts[0],
+                        :pattern => argv_minus_global_opts[1]}
+      RepoMap.handle(opts)
+    end
+    if argv_minus_global_opts.length==1
+      opts[:options] = {:path => nil,
+                        :pattern => argv_minus_global_opts.shift}
+      RepoMap.handle(opts)
     end
   else
     puts "repo: Not a known subcommand"
