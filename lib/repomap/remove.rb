@@ -15,7 +15,6 @@ module RepoMap
     File.open(repo_map, "w") do |f|
       f.write hash.to_yaml
     end
-    exit 0
   end
 
 end

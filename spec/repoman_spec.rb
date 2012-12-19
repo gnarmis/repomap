@@ -21,11 +21,11 @@ describe "RepoMap SubCommands" do
   end
 
   after :each do
-    rm_f "#{REPO1}/.git"
+    rm_rf "#{REPO1}/.git"
   end
 
   after :all do
-    `rm -rf  "#{File.dirname(__FILE__)}/../tmp"`
+    rm_rf "#{File.dirname(__FILE__)}/../tmp"
   end
 
   describe "#add!" do
@@ -36,6 +36,21 @@ describe "RepoMap SubCommands" do
       hash[File.expand_path(REPO1).to_sym][:name].should == File.basename(REPO1)
     end
 
+  end
+
+  describe "#remove!" do
+  
+    it "should remove a given path from ENV['REPO_MAP']" do
+      RepoMap.handle :add => REPO1, :recursive => false
+      hash1 = YAML::load(File.read(repo_map))
+      repo1_in_repomap = hash1[File.expand_path(REPO1).to_sym][:name] \
+                          == File.basename(REPO1)
+      RepoMap.handle :remove => REPO1
+      hash2 = YAML::load(File.read(repo_map))
+      repo1_removed = !(hash2.has_key?(File.expand_path(REPO1).to_sym))
+      (repo1_in_repomap and repo1_removed).should == true
+    end
+  
   end
 
 end

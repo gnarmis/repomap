@@ -1,2 +1,4 @@
 *.gem
 tmp
+Gemfile.lock
+*.swp
