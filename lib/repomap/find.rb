@@ -17,8 +17,8 @@ module RepoMap
     hash.each do |k, v|
       fk = File.expand_path(k.to_s)
       m = fk.match(fp_reg)
-      is_subdir = (fk.length>fp.length)&&(m.to_s==fp)
-      if is_subdir and v[:name].to_s.match(regex)!=nil
+      is_subdir = (fk.length>fp.length) && (m.to_s==fp)
+      if is_subdir && v[:name].to_s.match(regex)!=nil
         puts k.to_s
       end
     end
