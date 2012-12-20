@@ -8,7 +8,7 @@ module RepoMap
      longest_name = v[:name].length if v[:name].length > longest_name 
     end
     hash.each do |key, value|
-     printf "%-#{longest_name}s %s\n", value[:name], key
+     printf("%-#{longest_name}s %s\n", value[:name], key)
     end
     exit 0
   end

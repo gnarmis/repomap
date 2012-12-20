@@ -22,7 +22,7 @@ module RepoMap
   #                  :pattern => "some regex"}}
   #
   # Then, call appropriate functions.
-  def self.handle options
+  def self.handle(options)
     
     case options[:action].to_s
     when /add/
@@ -44,10 +44,10 @@ module RepoMap
 
   end
 
-  def path_exists? options
+  def path_exists?(options)
 
-    if options[:options][:path] != nil and
-       options[:options][:path] != ''
+    if (options[:options][:path] != nil) &&
+       (options[:options][:path] != '')
       return true
     else
       return false
