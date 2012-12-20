@@ -94,12 +94,12 @@ begin
       RepoMap.handle(opts)
     end
   else
-    puts "repo: Not a known subcommand"
+    STDOUT.puts "repo: Not a known subcommand"
   end  
 
   exit 0
 rescue OptionParser::MissingArgument => e
-  puts "repo: #{e}"
+  STDERR.puts "repo: #{e}"
 rescue NoMethodError => e
-  puts banner
+  STDOUT.puts banner
 end
