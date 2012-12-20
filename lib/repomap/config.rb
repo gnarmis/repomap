@@ -1,9 +1,9 @@
 module RepoMap
 
-  ENV['REPO_MAP'] = "#{`echo $HOME`.chomp}/.repomap.yml"
+  REPO_MAP_FILE = File.join(ENV['HOME'].strip,".repomap.yml")
 
   def repo_map
-    ENV['REPO_MAP']
+    REPO_MAP_FILE
   end
 
 end
