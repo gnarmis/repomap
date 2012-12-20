@@ -28,7 +28,7 @@ module RepoMap
     when /add/
       if path_exists? options 
          add_recursive! options[:options][:path] if options[:options][:recursive]
-         add! options[:options][:path] if not options[:options][:recursive]  
+         add! options[:options][:path] if !(options[:options][:recursive])  
       end
     when /remove/
       if path_exists? options 
