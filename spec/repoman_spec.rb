@@ -8,6 +8,7 @@ include FileUtils
 module RepoMap
   TEST_REPO_MAP = "#{File.dirname(__FILE__)}/../tmp/repomap.yml"
   def repo_map; TEST_REPO_MAP; end
+  MANY_REPOS = "#{File.dirname(__FILE__)}/../tmp/many_repos"
   REPO1 = "#{File.dirname(__FILE__)}/../tmp/repo1"
 end
 
@@ -17,12 +18,16 @@ describe "RepoMap SubCommands" do
 
   before :each do
     mkdir_p "#{REPO1}/.git"
-    # so it's not empty...
     touch "#{REPO1}/README"
+    mkdir_p "#{MANY_REPOS}/repo2a/.git"
+    touch "#{MANY_REPOS}/repo2a/README"
+    mkdir_p "#{MANY_REPOS}/repo2b/.git"
+    touch "#{MANY_REPOS}/repo2b/README"
   end
 
   after :each do
     rm_rf "#{REPO1}/.git"
+    rm_rf "#{MANY_REPOS}"
   end
 
   after :all do
@@ -36,6 +41,20 @@ describe "RepoMap SubCommands" do
       RepoMap.handle(opts) 
       hash = YAML::load(File.read(repo_map))
       hash[File.expand_path(REPO1).to_sym][:name].should == File.basename(REPO1)
+    end
+
+  end
+
+  describe "#add_recursive!" do
+    
+    it "should recursively add all git repo's in a certain path" do
+      opts = repo_opts(:add, MANY_REPOS, true)
+      RepoMap.handle(opts)
+      hash = YAML::load(File.read(repo_map))
+      repo2a_path = File.expand_path("#{MANY_REPOS}/repo2a")
+      repo2b_path = File.expand_path("#{MANY_REPOS}/repo2b")
+      hash[repo2a_path.to_sym][:name].should == File.basename(repo2a_path)
+      hash[repo2b_path.to_sym][:name].should == File.basename(repo2b_path)
     end
 
   end
@@ -59,10 +78,10 @@ describe "RepoMap SubCommands" do
 
 end
 
-def repo_opts(action, repo_path)
+def repo_opts(action, repo_path, recursive=false)
   opts = {}
   opts[:action]  = action
   opts[:options] = {:path      => repo_path,
-                    :recursive => false}
+                    :recursive => recursive}
   return opts
 end
