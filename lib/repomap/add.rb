@@ -1,3 +1,5 @@
+require 'find'
+
 module RepoMap
   
   def add!(path)
@@ -12,18 +14,10 @@ module RepoMap
     end
   end
 
+
   def add_recursive!(path)
-    if File.directory?(path) && has_git?(path)
-      add! path
-    elsif File.directory?(path) && !has_git?(path)
-      Dir.foreach(path) do |item|
-        next if item == '.' || item == '..'
-        item_path = File.join(File.expand_path(path), item)
-        add_recursive! item_path if File.directory? item_path
-      end
-    else
-      STDERR.puts "repo: Not a directory or repository -- #{path}"
-      exit 1
+    Find.find(path) do |f|
+      add! f if File.directory?(f) && has_git?(f)
     end
   end
 
