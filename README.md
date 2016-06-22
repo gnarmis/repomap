@@ -1,5 +1,7 @@
 # RepoMap
 
+![No Longer Maintained](https://img.shields.io/badge/maintained%3F-no!-red.svg?style=flat)
+
 Keep track of your local git repos.
 
 Add and remove any git repository to RepoMap, and it will keep
